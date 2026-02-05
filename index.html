@@ -2,73 +2,73 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>PC Build Finder</title>
+  <title>PC Build & FPS Calculator</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <header>
-    <h1>PC Build Finder</h1>
-    <p>Find the right PC for your games and performance target</p>
-  </header>
+<header>
+  <h1>PC Performance Calculator</h1>
+  <p>Build recommendations and FPS estimates based on real minimum specs</p>
+</header>
 
-  <main class="grid">
+<main class="grid">
 
-    <section class="card">
-      <h2>Games</h2>
-      <div id="games" class="game-grid"></div>
-    </section>
+  <!-- BUILD FINDER -->
+  <section class="card">
+    <h2>Games</h2>
+    <div id="games" class="game-grid"></div>
+  </section>
 
-    <section class="card">
-      <h2>Performance Target</h2>
+  <section class="card">
+    <h2>Performance Target</h2>
 
-      <label>Resolution</label>
-      <select id="resolution">
-        <option value="1">1080p</option>
-        <option value="1.4">1440p</option>
-        <option value="1.8">4K</option>
-      </select>
+    <label>Resolution</label>
+    <select id="resolution">
+      <option value="1">1080p</option>
+      <option value="1.4">1440p</option>
+      <option value="1.8">4K</option>
+    </select>
 
-      <label>Graphics Settings</label>
-      <select id="settings">
-        <option value="1">Low</option>
-        <option value="1.2">Medium</option>
-        <option value="1.4">High</option>
-        <option value="1.7">Ultra</option>
-      </select>
+    <label>Graphics Settings</label>
+    <select id="settings">
+      <option value="1">Low</option>
+      <option value="1.2">Medium</option>
+      <option value="1.4">High</option>
+      <option value="1.7">Ultra</option>
+    </select>
 
-      <label>Target Frame Rate</label>
-      <select id="fps">
-        <option value="1">60 FPS</option>
-        <option value="1.25">120 FPS</option>
-        <option value="1.4">144 FPS</option>
-        <option value="1.7">240 FPS</option>
-      </select>
+    <label>Target Frame Rate</label>
+    <select id="fps">
+      <option value="1">60 FPS</option>
+      <option value="1.25">120 FPS</option>
+      <option value="1.4">144 FPS</option>
+      <option value="1.7">240 FPS</option>
+    </select>
 
-      <button onclick="calculateBuild()">Generate Build</button>
-    </section>
+    <button onclick="calculateBuild()">Generate Build</button>
+  </section>
 
-    <section class="card result-card" id="result">
-      <h2>Recommended Build</h2>
-      <p>Select your options to generate a build.</p>
-    </section>
+  <section class="card result-card" id="result">
+    <h2>Recommended Build</h2>
+    <p class="hint">Choose games and performance targets to begin.</p>
+  </section>
 
-  </main>
+</main>
 
-  <script src="script.js"></script>
-</body>
-</html>
+<!-- FPS ESTIMATOR -->
 <section class="card fps-checker">
   <h2>FPS Estimator</h2>
   <p class="hint">
-    Enter your PC specs and see the estimated average FPS.
+    Estimates average FPS. Minimum specs are defined as ~60 FPS avg at 1080p Low.
+    1% lows are not included.
   </p>
 
   <label>CPU Tier</label>
   <select id="cpuTier">
-    <option value="1">Low-end (i5-7400 / Ryzen 3)</option>
-    <option value="1.5">Mid-range (i5-10400 / Ryzen 5 3600)</option>
-    <option value="2">High-end (i7-12700 / Ryzen 7 5800X)</option>
+    <option value="1">Low (i5-7400 / Ryzen 3)</option>
+    <option value="1.5">Mid (i5-10400 / Ryzen 5 3600)</option>
+    <option value="2">High (i7-12700 / Ryzen 7)</option>
     <option value="2.5">Enthusiast (7800X3D / i9)</option>
   </select>
 
@@ -100,6 +100,9 @@
   </select>
 
   <button onclick="estimateFPS()">Estimate FPS</button>
-
   <div id="fpsResult"></div>
 </section>
+
+<script src="script.js"></script>
+</body>
+</html>
