@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ClearSpec PCs</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>ClearSpec PCs</h1>
+    <p>Optimized PCs tailored to your gaming needs.</p>
+  </header>
+
+  <main>
+    <section class="recommender">
+      <h2>Find Your PC</h2>
+
+      <label for="game">Select your game:</label>
+      <select id="game">
+        <option value="Fortnite">Fortnite</option>
+        <option value="Warzone">Warzone</option>
+        <option value="Minecraft">Minecraft</option>
+        <option value="Cyberpunk">Cyberpunk 2077</option>
+        <option value="Valorant">Valorant</option>
+      </select>
+
+      <label for="resolution">Select resolution:</label>
+      <select id="resolution">
+        <option value="1080p">1080p</option>
+        <option value="1440p">1440p</option>
+        <option value="4k">4K</option>
+      </select>
+
+      <label for="settings">Graphics settings:</label>
+      <select id="settings">
+        <option value="Low">Low</option>
+        <option value="Medium">Medium</option>
+        <option value="High">High</option>
+        <option value="Ultra">Ultra</option>
+      </select>
+
+      <button onclick="recommendPC()">Get Recommendation</button>
+
+      <div id="result"></div>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 ClearSpec PCs | Online-only builds, transparent pricing</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
