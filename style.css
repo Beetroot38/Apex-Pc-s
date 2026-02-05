@@ -1,49 +1,126 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>PC Build Finder</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
+:root {
+  --bg: #0b1220;
+  --card: #111827;
+  --accent: #3b82f6;
+  --text: #e5e7eb;
+  --muted: #9ca3af;
+}
 
-  <h1>🎮 PC Build Finder</h1>
-  <p>Choose your games and performance target.</p>
+* {
+  box-sizing: border-box;
+}
 
-  <div class="card">
-    <h2>Games</h2>
-    <div id="games"></div>
-  </div>
+body {
+  margin: 0;
+  font-family: Inter, system-ui, sans-serif;
+  background: linear-gradient(180deg, #0b1220, #020617);
+  color: var(--text);
+}
 
-  <div class="card">
-    <h2>Resolution</h2>
-    <select id="resolution">
-      <option value="1">1080p</option>
-      <option value="1.4">1440p</option>
-      <option value="1.8">4K</option>
-    </select>
+header {
+  text-align: center;
+  padding: 40px 20px 20px;
+}
 
-    <h2>Graphics Settings</h2>
-    <select id="settings">
-      <option value="1">Low</option>
-      <option value="1.2">Medium</option>
-      <option value="1.4">High</option>
-      <option value="1.7">Ultra</option>
-    </select>
+header h1 {
+  font-size: 2.5rem;
+  margin-bottom: 8px;
+}
 
-    <h2>Target Frame Rate</h2>
-    <select id="fps">
-      <option value="1">60 FPS</option>
-      <option value="1.25">120 FPS</option>
-      <option value="1.4">144 FPS</option>
-      <option value="1.7">240 FPS</option>
-    </select>
-  </div>
+header p {
+  color: var(--muted);
+}
 
-  <button onclick="calculateBuild()">Find My Build</button>
+.grid {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  gap: 24px;
+  padding: 24px;
+  max-width: 1200px;
+  margin: auto;
+}
 
-  <div class="card" id="result"></div>
+.card {
+  background: rgba(17, 24, 39, 0.85);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+}
 
-  <script src="script.js"></script>
-</body>
-</html>
+.card h2 {
+  margin-top: 0;
+  margin-bottom: 16px;
+}
+
+label {
+  font-size: 0.9rem;
+  color: var(--muted);
+  margin-top: 12px;
+  display: block;
+}
+
+select {
+  width: 100%;
+  padding: 12px;
+  margin-top: 6px;
+  border-radius: 10px;
+  border: 1px solid #1f2933;
+  background: #020617;
+  color: var(--text);
+}
+
+button {
+  margin-top: 20px;
+  width: 100%;
+  padding: 14px;
+  border-radius: 12px;
+  border: none;
+  font-size: 1rem;
+  font-weight: 600;
+  color: white;
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  cursor: pointer;
+}
+
+button:hover {
+  opacity: 0.9;
+}
+
+/* Game grid */
+.game-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 10px;
+}
+
+.game-grid label {
+  background: #020617;
+  border: 1px solid #1f2933;
+  border-radius: 10px;
+  padding: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.game-grid input {
+  accent-color: var(--accent);
+}
+
+/* Result card */
+.result-card p {
+  margin: 8px 0;
+}
+
+.result-card strong {
+  color: white;
+}
+
+/* Mobile */
+@media (max-width: 900px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
