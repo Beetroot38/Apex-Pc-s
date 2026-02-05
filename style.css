@@ -1,72 +1,49 @@
-/* Reset & basic styling */
-body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 0;
-  background: #f7f7f7;
-  color: #222;
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>PC Build Finder</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
-header {
-  background-color: #1e1e1e;
-  color: #fff;
-  text-align: center;
-  padding: 2rem 1rem;
-}
+  <h1>🎮 PC Build Finder</h1>
+  <p>Choose your games and performance target.</p>
 
-header h1 {
-  margin: 0.2rem 0;
-}
+  <div class="card">
+    <h2>Games</h2>
+    <div id="games"></div>
+  </div>
 
-main {
-  padding: 2rem;
-  max-width: 600px;
-  margin: 0 auto;
-}
+  <div class="card">
+    <h2>Resolution</h2>
+    <select id="resolution">
+      <option value="1">1080p</option>
+      <option value="1.4">1440p</option>
+      <option value="1.8">4K</option>
+    </select>
 
-.recommender {
-  background: #fff;
-  padding: 1.5rem;
-  border-radius: 10px;
-  box-shadow: 0 0 15px rgba(0,0,0,0.1);
-}
+    <h2>Graphics Settings</h2>
+    <select id="settings">
+      <option value="1">Low</option>
+      <option value="1.2">Medium</option>
+      <option value="1.4">High</option>
+      <option value="1.7">Ultra</option>
+    </select>
 
-.recommender label {
-  display: block;
-  margin-top: 1rem;
-}
+    <h2>Target Frame Rate</h2>
+    <select id="fps">
+      <option value="1">60 FPS</option>
+      <option value="1.25">120 FPS</option>
+      <option value="1.4">144 FPS</option>
+      <option value="1.7">240 FPS</option>
+    </select>
+  </div>
 
-.recommender select {
-  width: 100%;
-  padding: 0.5rem;
-  margin-top: 0.3rem;
-}
+  <button onclick="calculateBuild()">Find My Build</button>
 
-.recommender button {
-  margin-top: 1.5rem;
-  padding: 0.7rem 1.2rem;
-  background-color: #1e1e1e;
-  color: #fff;
-  border: none;
-  cursor: pointer;
-  border-radius: 5px;
-}
+  <div class="card" id="result"></div>
 
-.recommender button:hover {
-  background-color: #444;
-}
-
-#result {
-  margin-top: 1.5rem;
-  padding: 1rem;
-  background: #eef;
-  border-radius: 5px;
-}
-
-footer {
-  text-align: center;
-  padding: 1.5rem 1rem;
-  background: #1e1e1e;
-  color: #fff;
-  margin-top: 2rem;
-}
+  <script src="script.js"></script>
+</body>
+</html>
