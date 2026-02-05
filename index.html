@@ -1,108 +1,445 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>PC Build & FPS Calculator</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZTT Tech Hub</title>
+    <style>
+        /* --- ZTT STYLE VARIABLES --- */
+        :root {
+            --bg-color: #0f0f11;
+            --card-bg: #1a1a1e;
+            --accent: #ff4747; /* ZTT Red */
+            --text-main: #ffffff;
+            --text-muted: #a0a0a0;
+            --font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: var(--font-family);
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* --- HEADER --- */
+        header {
+            background-color: var(--card-bg);
+            padding: 1.5rem 2rem;
+            border-bottom: 2px solid var(--accent);
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2rem;
+            font-weight: 800;
+            letter-spacing: -1px;
+            text-transform: uppercase;
+        }
+
+        header span {
+            color: var(--accent);
+        }
+
+        /* --- LAYOUT --- */
+        .container {
+            max-width: 1200px;
+            margin: 3rem auto;
+            padding: 0 1.5rem;
+            flex: 1;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* --- CARDS --- */
+        .tool-card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 2.5rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+            border: 1px solid #333;
+            transition: transform 0.2s ease, border-color 0.2s ease;
+        }
+
+        .tool-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent);
+        }
+
+        h2 {
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+            border-left: 4px solid var(--accent);
+            padding-left: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* --- FORMS --- */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        select, input {
+            width: 100%;
+            padding: 14px;
+            background-color: #0f0f11;
+            border: 1px solid #333;
+            border-radius: 6px;
+            color: var(--text-main);
+            font-family: inherit;
+            outline: none;
+            cursor: pointer;
+            transition: border-color 0.2s;
+        }
+
+        select:focus, input:focus {
+            border-color: var(--accent);
+        }
+
+        /* --- BUTTONS --- */
+        .btn-action {
+            width: 100%;
+            padding: 16px;
+            background-color: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-weight: 800;
+            cursor: pointer;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 1rem;
+            transition: background-color 0.2s, transform 0.1s;
+        }
+
+        .btn-action:hover {
+            background-color: #e03e3e;
+            transform: scale(1.02);
+        }
+
+        /* --- RESULTS AREA --- */
+        .result-box {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background-color: #25252a;
+            border-radius: 8px;
+            display: none; /* Hidden by default */
+            animation: fadeIn 0.4s ease;
+            border-left: 4px solid var(--text-muted);
+        }
+
+        .result-title {
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .result-value {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--text-main);
+            line-height: 1;
+        }
+        
+        .result-value span {
+            font-size: 1.5rem;
+            color: var(--accent);
+        }
+
+        .result-details {
+            margin-top: 1rem;
+            font-size: 0.95rem;
+            color: #ccc;
+        }
+
+        /* --- SPEC LIST --- */
+        .spec-list ul {
+            list-style: none;
+            margin-top: 0.5rem;
+        }
+
+        .spec-list li {
+            padding: 12px 0;
+            border-bottom: 1px solid #333;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .spec-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .spec-list span {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+        
+        .spec-list strong {
+            color: var(--accent);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            border-top: 1px solid #333;
+            margin-top: auto;
+        }
+    </style>
 </head>
 <body>
 
-<header>
-  <h1>PC Performance Calculator</h1>
-  <p>Build recommendations and FPS estimates based on real minimum specs</p>
-</header>
+    <header>
+        <h1>ZTT <span>TECH HUB</span></h1>
+    </header>
 
-<main class="grid">
+    <div class="container">
+        
+        <div class="tool-card">
+            <h2>FPS Calculator</h2>
+            <div class="form-group">
+                <label>Select Game</label>
+                <select id="fps-game">
+                    <option value="cyberpunk">Cyberpunk 2077</option>
+                    <option value="cod">Call of Duty: Warzone</option>
+                    <option value="fortnite">Fortnite</option>
+                    <option value="csgo">Counter-Strike 2</option>
+                    <option value="gta">GTA V</option>
+                    <option value="minecraft">Minecraft (Shaders)</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Your GPU</label>
+                <select id="fps-gpu">
+                    <option value="4090">RTX 4090</option>
+                    <option value="4080">RTX 4080 / 7900 XTX</option>
+                    <option value="4070">RTX 4070 / 3080</option>
+                    <option value="4060">RTX 4060 / 3060 Ti</option>
+                    <option value="3060">RTX 3060 / RX 7600</option>
+                    <option value="2060">RTX 2060 / RX 6600</option>
+                    <option value="1660">GTX 1660 Super</option>
+                    <option value="low">Integrated / Old GPU</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>CPU Tier</label>
+                <select id="fps-cpu">
+                    <option value="high">High End (i9-14900K / 7800X3D)</option>
+                    <option value="mid">Mid Range (i5-13600K / 7600X)</option>
+                    <option value="budget">Budget (i3-12100F / 5600)</option>
+                    <option value="old">Older Gen (i7-7700 / Ryzen 2600)</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Target Resolution</label>
+                <select id="fps-res">
+                    <option value="1080p">1080p (High Settings)</option>
+                    <option value="1440p">1440p (High Settings)</option>
+                    <option value="4k">4K (High Settings)</option>
+                </select>
+            </div>
+            <button class="btn-action" onclick="calculateFPS()">Calculate FPS</button>
 
-  <!-- BUILD FINDER -->
-  <section class="card">
-    <h2>Games</h2>
-    <div id="games" class="game-grid"></div>
-  </section>
+            <div id="fps-result" class="result-box">
+                <div class="result-title">Estimated Average</div>
+                <div class="result-value" id="fps-number">0 <span>FPS</span></div>
+                <div class="result-details" id="fps-comment"></div>
+            </div>
+        </div>
 
-  <section class="card">
-    <h2>Performance Target</h2>
+        <div class="tool-card">
+            <h2>PC Spec Recommender</h2>
+            <div class="form-group">
+                <label>What will you play?</label>
+                <select id="build-game">
+                    <option value="esports">Esports (Val/CS/League)</option>
+                    <option value="aaa">AAA Titles (Cyberpunk/Starfield)</option>
+                    <option value="casual">Casual / Indie Games</option>
+                    <option value="streaming">Streaming + Gaming</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Monitor Resolution</label>
+                <select id="build-res">
+                    <option value="1080p">1080p</option>
+                    <option value="1440p">1440p</option>
+                    <option value="4k">4K</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Preferred Settings</label>
+                <select id="build-settings">
+                    <option value="ultra">Ultra / Max Settings</option>
+                    <option value="high">High / Balanced</option>
+                    <option value="low">Low / Competitive</option>
+                </select>
+            </div>
+            <button class="btn-action" onclick="recommendBuild()">Generate Build</button>
 
-    <label>Resolution</label>
-    <select id="resolution">
-      <option value="1">1080p</option>
-      <option value="1.4">1440p</option>
-      <option value="1.8">4K</option>
-    </select>
+            <div id="build-result" class="result-box">
+                <div class="result-title">Optimized Configuration</div>
+                <div class="spec-list">
+                    <ul id="build-list">
+                        </ul>
+                </div>
+            </div>
+        </div>
 
-    <label>Graphics Settings</label>
-    <select id="settings">
-      <option value="1">Low</option>
-      <option value="1.2">Medium</option>
-      <option value="1.4">High</option>
-      <option value="1.7">Ultra</option>
-    </select>
+    </div>
 
-    <label>Target Frame Rate</label>
-    <select id="fps">
-      <option value="1">60 FPS</option>
-      <option value="1.25">120 FPS</option>
-      <option value="1.4">144 FPS</option>
-      <option value="1.7">240 FPS</option>
-    </select>
+    <footer>
+        <p>&copy; 2024 ZTT Tech Hub | Estimates are simulated based on hardware tiers.</p>
+    </footer>
 
-    <button onclick="calculateBuild()">Generate Build</button>
-  </section>
+    <script>
+        // --- FPS CALCULATOR LOGIC ---
+        function calculateFPS() {
+            const game = document.getElementById('fps-game').value;
+            const gpu = document.getElementById('fps-gpu').value;
+            const cpu = document.getElementById('fps-cpu').value;
+            const res = document.getElementById('fps-res').value;
 
-  <section class="card result-card" id="result">
-    <h2>Recommended Build</h2>
-    <p class="hint">Choose games and performance targets to begin.</p>
-  </section>
+            // 1. Define Base "Power" Scores
+            const gpuScores = {
+                '4090': 350, '4080': 260, '4070': 180, '4060': 120,
+                '3060': 90, '2060': 70, '1660': 50, 'low': 20
+            };
 
-</main>
+            const cpuMults = { 'high': 1.15, 'mid': 1.0, 'budget': 0.85, 'old': 0.6 };
+            const resDivs = { '1080p': 1, '1440p': 1.5, '4k': 2.4 }; // Higher res = harder to run
 
-<!-- FPS ESTIMATOR -->
-<section class="card fps-checker">
-  <h2>FPS Estimator</h2>
-  <p class="hint">
-    Estimates average FPS. Minimum specs are defined as ~60 FPS avg at 1080p Low.
-    1% lows are not included.
-  </p>
+            // 2. Define Game Optimization Factors (Higher = harder to run)
+            const gameFactors = {
+                'cyberpunk': 2.0, 'cod': 1.2, 'fortnite': 0.5,
+                'csgo': 0.3, 'gta': 0.8, 'minecraft': 1.2
+            };
 
-  <label>CPU Tier</label>
-  <select id="cpuTier">
-    <option value="1">Low (i5-7400 / Ryzen 3)</option>
-    <option value="1.5">Mid (i5-10400 / Ryzen 5 3600)</option>
-    <option value="2">High (i7-12700 / Ryzen 7)</option>
-    <option value="2.5">Enthusiast (7800X3D / i9)</option>
-  </select>
+            // 3. Calculation
+            let baseScore = gpuScores[gpu];
+            let cpuMod = cpuMults[cpu];
+            let resMod = resDivs[res];
+            let gameMod = gameFactors[game];
 
-  <label>GPU Tier</label>
-  <select id="gpuTier">
-    <option value="1">GTX 970 / RX 570</option>
-    <option value="1.5">RTX 2060 / RX 6600</option>
-    <option value="2">RTX 3060 Ti / RX 6700 XT</option>
-    <option value="2.5">RTX 4070 / RX 7800 XT</option>
-    <option value="3">RTX 4090 / RX 7900 XTX</option>
-  </select>
+            // Formula: (Power * CPU) / (Resolution * GameDifficulty) * MagicNumber
+            let rawFps = (baseScore * cpuMod) / (resMod * gameMod) * 2.0;
 
-  <label>Game</label>
-  <select id="fpsGame"></select>
+            // 4. Add "Realism" Variance
+            let variance = Math.floor(Math.random() * 10) - 5; 
+            let finalFps = Math.floor(rawFps) + variance;
 
-  <label>Resolution</label>
-  <select id="fpsResolution">
-    <option value="1">1080p</option>
-    <option value="1.4">1440p</option>
-    <option value="1.8">4K</option>
-  </select>
+            // Safety check for unrealistic numbers
+            if (finalFps < 10) finalFps = 10;
+            if (finalFps > 999) finalFps = 999; 
 
-  <label>Graphics Settings</label>
-  <select id="fpsSettings">
-    <option value="1">Low</option>
-    <option value="1.2">Medium</option>
-    <option value="1.4">High</option>
-    <option value="1.7">Ultra</option>
-  </select>
+            // 5. Update UI
+            const resultBox = document.getElementById('fps-result');
+            const fpsNum = document.getElementById('fps-number');
+            const fpsComment = document.getElementById('fps-comment');
 
-  <button onclick="estimateFPS()">Estimate FPS</button>
-  <div id="fpsResult"></div>
-</section>
+            resultBox.style.display = 'block';
+            fpsNum.innerHTML = `${finalFps} <span>FPS</span>`;
+            
+            if (finalFps > 144) fpsComment.innerText = "Butter smooth. Perfect for 144Hz+ monitors.";
+            else if (finalFps > 60) fpsComment.innerText = "Solid performance. Very playable.";
+            else if (finalFps > 30) fpsComment.innerText = "Playable, but you might see some stutter.";
+            else fpsComment.innerText = "Time for an upgrade (or lower settings).";
+        }
 
-<script src="script.js"></script>
+        // --- PC RECOMMENDER LOGIC ---
+        function recommendBuild() {
+            const gameType = document.getElementById('build-game').value;
+            const res = document.getElementById('build-res').value;
+            const settings = document.getElementById('build-settings').value;
+
+            let cpu, gpu, ram, psu;
+
+            // Logic Tree
+            if (res === '4k') {
+                cpu = "Ryzen 7 7800X3D";
+                gpu = "RTX 4080 Super";
+                ram = "32GB DDR5-6000";
+                psu = "850W Gold";
+            } else if (res === '1440p') {
+                if (settings === 'ultra' || gameType === 'aaa') {
+                    cpu = "Core i5-13600K";
+                    gpu = "RTX 4070 Ti Super";
+                    ram = "32GB DDR5";
+                    psu = "750W Gold";
+                } else {
+                    cpu = "Ryzen 5 7600";
+                    gpu = "RX 7800 XT";
+                    ram = "32GB DDR5";
+                    psu = "750W Gold";
+                }
+            } else { // 1080p Logic
+                if (gameType === 'esports') {
+                    // Esports needs high CPU, moderate GPU
+                    cpu = "Ryzen 7 5700X3D"; 
+                    gpu = "RTX 4060";
+                    ram = "32GB DDR4";
+                    psu = "650W Bronze";
+                } else if (settings === 'ultra') {
+                    cpu = "Core i5-12400F";
+                    gpu = "RTX 4060 Ti / RX 7700 XT";
+                    ram = "16GB DDR4";
+                    psu = "650W Gold";
+                } else {
+                    // Budget 1080p
+                    cpu = "Ryzen 5 5600";
+                    gpu = "RX 6600";
+                    ram = "16GB DDR4";
+                    psu = "550W Bronze";
+                }
+            }
+
+            // Update UI
+            const resultBox = document.getElementById('build-result');
+            const list = document.getElementById('build-list');
+            
+            resultBox.style.display = 'block';
+            list.innerHTML = `
+                <li><span>CPU</span> <strong>${cpu}</strong></li>
+                <li><span>GPU</span> <strong>${gpu}</strong></li>
+                <li><span>RAM</span> <strong>${ram}</strong></li>
+                <li><span>PSU</span> <strong>${psu}</strong></li>
+            `;
+        }
+    </script>
 </body>
 </html>
