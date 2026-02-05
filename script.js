@@ -99,3 +99,8 @@ function calculateBuild() {
     <p><strong>Estimated Price:</strong> ${build.price}</p>
   `;
 }
+const fpsGameSelect = document.getElementById("fpsGame");
+
+for (let game in gameData) {
+  fpsGameSelect.innerHTML += `<option value="${game}">${game}</option>`;
+}
