@@ -104,3 +104,29 @@ const fpsGameSelect = document.getElementById("fpsGame");
 for (let game in gameData) {
   fpsGameSelect.innerHTML += `<option value="${game}">${game}</option>`;
 }
+function estimateFPS() {
+  const cpu = parseFloat(document.getElementById("cpuTier").value);
+  const gpu = parseFloat(document.getElementById("gpuTier").value);
+  const game = document.getElementById("fpsGame").value;
+  const resolution = parseFloat(document.getElementById("fpsResolution").value);
+  const settings = parseFloat(document.getElementById("fpsSettings").value);
+
+  // GPU matters more than CPU for most games
+  const pcScore = (gpu * 0.7) + (cpu * 0.3);
+
+  const gameLoad = gameData[game] * resolution * settings;
+
+  let avgFPS = Math.round((pcScore / gameLoad) * 60);
+
+  // Reasonable caps
+  if (avgFPS > 300) avgFPS = 300;
+  if (avgFPS < 10) avgFPS = 10;
+
+  document.getElementById("fpsResult").innerHTML = `
+    <p><strong>Estimated Average FPS:</strong> ${avgFPS}</p>
+    <p class="hint">
+      Based on ~60 FPS average minimum specs at 1080p Low.
+      1% lows not included.
+    </p>
+  `;
+}
