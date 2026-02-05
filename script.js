@@ -1,4 +1,4 @@
-function recommendPC() {
+lfunction recommendPC() {
   const game = document.getElementById("game").value;
   const resolution = document.getElementById("resolution").value;
   const settings = document.getElementById("settings").value;
@@ -42,7 +42,19 @@ function recommendPC() {
     } else {
       cpu = "Intel i9 / Ryzen 9";
       gpu = "RTX 4090 / RX 7900 XT";
-    }
+    }else if (game === "Apex") {
+  if (resolution === "1080p") {
+    cpu = "Intel i5 / Ryzen 5";
+    gpu = "RTX 3060 / RX 6600";
+  } else if (resolution === "1440p") {
+    cpu = "Intel i7 / Ryzen 7";
+    gpu = "RTX 4070 / RX 7800 XT";
+  } else {
+    cpu = "Intel i9 / Ryzen 9";
+    gpu = "RTX 4080 / RX 7900 XT";
+  }
+}
+
   }
 
   const resultDiv = document.getElementById("result");
