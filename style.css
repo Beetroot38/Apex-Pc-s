@@ -124,3 +124,11 @@ button:hover {
     grid-template-columns: 1fr;
   }
 }
+.fps-checker {
+  margin-top: 40px;
+}
+
+#fpsResult {
+  margin-top: 16px;
+  font-size: 1.1rem;
+}
