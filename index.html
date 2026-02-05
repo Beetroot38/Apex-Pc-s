@@ -236,12 +236,24 @@
             <div class="form-group">
                 <label>Select Game</label>
                 <select id="fps-game">
+                    <option disabled selected>-- Choose a Game --</option>
                     <option value="cyberpunk">Cyberpunk 2077</option>
                     <option value="cod">Call of Duty: Warzone</option>
                     <option value="fortnite">Fortnite</option>
-                    <option value="csgo">Counter-Strike 2</option>
+                    <option value="cs2">Counter-Strike 2</option>
+                    <option value="valorant">Valorant</option>
+                    <option value="apex">Apex Legends</option>
+                    <option value="overwatch">Overwatch 2</option>
                     <option value="gta">GTA V</option>
-                    <option value="minecraft">Minecraft (Shaders)</option>
+                    <option value="rdr2">Red Dead Redemption 2</option>
+                    <option value="eldenring">Elden Ring</option>
+                    <option value="helldivers">Helldivers 2</option>
+                    <option value="palworld">Palworld</option>
+                    <option value="mc_vanilla">Minecraft (Vanilla)</option>
+                    <option value="mc_shaders">Minecraft (High-End Shaders)</option>
+                    <option value="alanwake">Alan Wake 2</option>
+                    <option value="roblox">Roblox</option>
+                    <option value="league">League of Legends</option>
                 </select>
             </div>
             <div class="form-group">
@@ -249,12 +261,13 @@
                 <select id="fps-gpu">
                     <option value="4090">RTX 4090</option>
                     <option value="4080">RTX 4080 / 7900 XTX</option>
-                    <option value="4070">RTX 4070 / 3080</option>
+                    <option value="4070">RTX 4070 / 3080 / 7800 XT</option>
                     <option value="4060">RTX 4060 / 3060 Ti</option>
                     <option value="3060">RTX 3060 / RX 7600</option>
                     <option value="2060">RTX 2060 / RX 6600</option>
                     <option value="1660">GTX 1660 Super</option>
-                    <option value="low">Integrated / Old GPU</option>
+                    <option value="1060">GTX 1060 / RX 580</option>
+                    <option value="low">Integrated Graphics (APU)</option>
                 </select>
             </div>
             <div class="form-group">
@@ -264,6 +277,7 @@
                     <option value="mid">Mid Range (i5-13600K / 7600X)</option>
                     <option value="budget">Budget (i3-12100F / 5600)</option>
                     <option value="old">Older Gen (i7-7700 / Ryzen 2600)</option>
+                    <option value="ancient">Very Old (i5-4460 / FX-8350)</option>
                 </select>
             </div>
             <div class="form-group">
@@ -292,6 +306,7 @@
                     <option value="aaa">AAA Titles (Cyberpunk/Starfield)</option>
                     <option value="casual">Casual / Indie Games</option>
                     <option value="streaming">Streaming + Gaming</option>
+                    <option value="rendering">Gaming + Video Editing</option>
                 </select>
             </div>
             <div class="form-group">
@@ -335,22 +350,50 @@
             const cpu = document.getElementById('fps-cpu').value;
             const res = document.getElementById('fps-res').value;
 
-            // 1. Define Base "Power" Scores
+            // 1. GPU Power Scores (Raw Horsepower)
             const gpuScores = {
-                '4090': 350, '4080': 260, '4070': 180, '4060': 120,
-                '3060': 90, '2060': 70, '1660': 50, 'low': 20
+                '4090': 380, '4080': 280, '4070': 190, '4060': 130,
+                '3060': 95, '2060': 75, '1660': 55, '1060': 40, 'low': 15
             };
 
-            const cpuMults = { 'high': 1.15, 'mid': 1.0, 'budget': 0.85, 'old': 0.6 };
-            const resDivs = { '1080p': 1, '1440p': 1.5, '4k': 2.4 }; // Higher res = harder to run
+            // 2. CPU Multipliers
+            const cpuMults = { 
+                'high': 1.2, 'mid': 1.0, 'budget': 0.85, 
+                'old': 0.65, 'ancient': 0.4 
+            };
+            
+            // 3. Resolution Divisors (Higher res = harder)
+            const resDivs = { '1080p': 1, '1440p': 1.6, '4k': 2.8 }; 
 
-            // 2. Define Game Optimization Factors (Higher = harder to run)
+            // 4. Game Optimization Factors (Higher = harder to run)
+            // Low number = Easy to run (Esports), High number = Heavy (Ray Tracing etc)
             const gameFactors = {
-                'cyberpunk': 2.0, 'cod': 1.2, 'fortnite': 0.5,
-                'csgo': 0.3, 'gta': 0.8, 'minecraft': 1.2
+                'cyberpunk': 2.2, 
+                'cod': 1.1, 
+                'fortnite': 0.6,
+                'cs2': 0.5, 
+                'valorant': 0.3,
+                'apex': 0.9,
+                'overwatch': 0.5,
+                'gta': 0.8, 
+                'rdr2': 1.5,
+                'eldenring': 1.3,
+                'helldivers': 1.6,
+                'palworld': 1.4,
+                'mc_vanilla': 0.2, // Very easy
+                'mc_shaders': 1.8, // Very hard (Java shaders)
+                'alanwake': 2.5,   // Extremely hard
+                'roblox': 0.2,
+                'league': 0.2
             };
 
-            // 3. Calculation
+            // Basic Validation
+            if (!game || !gpuScores[gpu]) {
+                alert("Please select all fields!");
+                return;
+            }
+
+            // 5. Calculation
             let baseScore = gpuScores[gpu];
             let cpuMod = cpuMults[cpu];
             let resMod = resDivs[res];
@@ -359,15 +402,22 @@
             // Formula: (Power * CPU) / (Resolution * GameDifficulty) * MagicNumber
             let rawFps = (baseScore * cpuMod) / (resMod * gameMod) * 2.0;
 
-            // 4. Add "Realism" Variance
+            // Cap extremely high FPS for realistic engine limits (e.g. engine caps at 300 or 500)
+            if (rawFps > 600) rawFps = 600;
+
+            // 6. Add "Realism" Variance
             let variance = Math.floor(Math.random() * 10) - 5; 
             let finalFps = Math.floor(rawFps) + variance;
 
-            // Safety check for unrealistic numbers
+            // Safety floors/ceilings
             if (finalFps < 10) finalFps = 10;
-            if (finalFps > 999) finalFps = 999; 
 
-            // 5. Update UI
+            // Special logic for very CPU bound games (CS2/Val) on slow CPUs
+            if ((game === 'cs2' || game === 'valorant') && (cpu === 'old' || cpu === 'ancient')) {
+                finalFps = Math.min(finalFps, 144); // Bottleneck
+            }
+
+            // Update UI
             const resultBox = document.getElementById('fps-result');
             const fpsNum = document.getElementById('fps-number');
             const fpsComment = document.getElementById('fps-comment');
@@ -375,10 +425,11 @@
             resultBox.style.display = 'block';
             fpsNum.innerHTML = `${finalFps} <span>FPS</span>`;
             
-            if (finalFps > 144) fpsComment.innerText = "Butter smooth. Perfect for 144Hz+ monitors.";
+            if (finalFps > 240) fpsComment.innerText = "Competitive Dream. Pro level smoothness.";
+            else if (finalFps > 144) fpsComment.innerText = "Butter smooth. Perfect for 144Hz monitors.";
             else if (finalFps > 60) fpsComment.innerText = "Solid performance. Very playable.";
-            else if (finalFps > 30) fpsComment.innerText = "Playable, but you might see some stutter.";
-            else fpsComment.innerText = "Time for an upgrade (or lower settings).";
+            else if (finalFps > 30) fpsComment.innerText = "Playable, but console-like experience.";
+            else fpsComment.innerText = "Unplayable. You need an upgrade.";
         }
 
         // --- PC RECOMMENDER LOGIC ---
@@ -392,39 +443,43 @@
             // Logic Tree
             if (res === '4k') {
                 cpu = "Ryzen 7 7800X3D";
-                gpu = "RTX 4080 Super";
+                gpu = "RTX 4080 Super / 4090";
                 ram = "32GB DDR5-6000";
-                psu = "850W Gold";
+                psu = "1000W Gold";
             } else if (res === '1440p') {
                 if (settings === 'ultra' || gameType === 'aaa') {
-                    cpu = "Core i5-13600K";
+                    cpu = "Core i5-13600K / 14600K";
                     gpu = "RTX 4070 Ti Super";
                     ram = "32GB DDR5";
-                    psu = "750W Gold";
+                    psu = "850W Gold";
+                } else if (gameType === 'rendering') {
+                    cpu = "Core i7-14700K (Productivity)";
+                    gpu = "RTX 4070";
+                    ram = "64GB DDR5";
+                    psu = "850W Gold";
                 } else {
-                    cpu = "Ryzen 5 7600";
-                    gpu = "RX 7800 XT";
+                    cpu = "Ryzen 5 7600X";
+                    gpu = "RX 7800 XT / RTX 4070";
                     ram = "32GB DDR5";
                     psu = "750W Gold";
                 }
             } else { // 1080p Logic
                 if (gameType === 'esports') {
-                    // Esports needs high CPU, moderate GPU
                     cpu = "Ryzen 7 5700X3D"; 
                     gpu = "RTX 4060";
-                    ram = "32GB DDR4";
+                    ram = "32GB DDR4/5";
                     psu = "650W Bronze";
                 } else if (settings === 'ultra') {
-                    cpu = "Core i5-12400F";
+                    cpu = "Ryzen 5 7600";
                     gpu = "RTX 4060 Ti / RX 7700 XT";
-                    ram = "16GB DDR4";
-                    psu = "650W Gold";
+                    ram = "32GB DDR5";
+                    psu = "750W Gold";
                 } else {
                     // Budget 1080p
-                    cpu = "Ryzen 5 5600";
-                    gpu = "RX 6600";
+                    cpu = "Ryzen 5 5600 / i5-12400F";
+                    gpu = "RX 6600 / RTX 3060";
                     ram = "16GB DDR4";
-                    psu = "550W Bronze";
+                    psu = "600W Bronze";
                 }
             }
 
