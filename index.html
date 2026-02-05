@@ -2,55 +2,47 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ClearSpec PCs</title>
+  <title>PC Build Finder</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header>
-    <h1>ClearSpec PCs</h1>
-    <p>Optimized PCs tailored to your gaming needs.</p>
-  </header>
 
-  <main>
-    <section class="recommender">
-      <h2>Find Your PC</h2>
+  <h1>🎮 PC Build Finder</h1>
+  <p>Choose your games and performance target.</p>
 
-      <label for="game">Select your game:</label>
-      <select id="game">
-        <option value="Fortnite">Fortnite</option>
-        <option value="Warzone">Warzone</option>
-        <option value="Minecraft">Minecraft</option>
-        <option value="Cyberpunk">Cyberpunk 2077</option>
-        <option value="Valorant">Valorant</option>
-        <option value="Apex">Apex Legends</option>
-        <option value="GTA 5">Grand Theft Auto 5</option>  
-      </select>
+  <div class="card">
+    <h2>Games</h2>
+    <div id="games"></div>
+  </div>
 
-      <label for="resolution">Select resolution:</label>
-      <select id="resolution">
-        <option value="1080p">1080p</option>
-        <option value="1440p">1440p</option>
-        <option value="4k">4K</option>
-      </select>
+  <div class="card">
+    <h2>Resolution</h2>
+    <select id="resolution">
+      <option value="1">1080p</option>
+      <option value="1.4">1440p</option>
+      <option value="1.8">4K</option>
+    </select>
 
-      <label for="settings">Graphics settings:</label>
-      <select id="settings">
-        <option value="Low">Low</option>
-        <option value="Medium">Medium</option>
-        <option value="High">High</option>
-        <option value="Ultra">Ultra</option>
-      </select>
+    <h2>Graphics Settings</h2>
+    <select id="settings">
+      <option value="1">Low</option>
+      <option value="1.2">Medium</option>
+      <option value="1.4">High</option>
+      <option value="1.7">Ultra</option>
+    </select>
 
-      <button onclick="recommendPC()">Get Recommendation</button>
+    <h2>Target Frame Rate</h2>
+    <select id="fps">
+      <option value="1">60 FPS</option>
+      <option value="1.25">120 FPS</option>
+      <option value="1.4">144 FPS</option>
+      <option value="1.7">240 FPS</option>
+    </select>
+  </div>
 
-      <div id="result"></div>
-    </section>
-  </main>
+  <button onclick="calculateBuild()">Find My Build</button>
 
-  <footer>
-    <p>&copy; 2026 ClearSpec PCs | Online-only builds, transparent pricing</p>
-  </footer>
+  <div class="card" id="result"></div>
 
   <script src="script.js"></script>
 </body>
