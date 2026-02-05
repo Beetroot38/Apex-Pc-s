@@ -58,3 +58,48 @@
   <script src="script.js"></script>
 </body>
 </html>
+<section class="card fps-checker">
+  <h2>FPS Estimator</h2>
+  <p class="hint">
+    Enter your PC specs and see the estimated average FPS.
+  </p>
+
+  <label>CPU Tier</label>
+  <select id="cpuTier">
+    <option value="1">Low-end (i5-7400 / Ryzen 3)</option>
+    <option value="1.5">Mid-range (i5-10400 / Ryzen 5 3600)</option>
+    <option value="2">High-end (i7-12700 / Ryzen 7 5800X)</option>
+    <option value="2.5">Enthusiast (7800X3D / i9)</option>
+  </select>
+
+  <label>GPU Tier</label>
+  <select id="gpuTier">
+    <option value="1">GTX 970 / RX 570</option>
+    <option value="1.5">RTX 2060 / RX 6600</option>
+    <option value="2">RTX 3060 Ti / RX 6700 XT</option>
+    <option value="2.5">RTX 4070 / RX 7800 XT</option>
+    <option value="3">RTX 4090 / RX 7900 XTX</option>
+  </select>
+
+  <label>Game</label>
+  <select id="fpsGame"></select>
+
+  <label>Resolution</label>
+  <select id="fpsResolution">
+    <option value="1">1080p</option>
+    <option value="1.4">1440p</option>
+    <option value="1.8">4K</option>
+  </select>
+
+  <label>Graphics Settings</label>
+  <select id="fpsSettings">
+    <option value="1">Low</option>
+    <option value="1.2">Medium</option>
+    <option value="1.4">High</option>
+    <option value="1.7">Ultra</option>
+  </select>
+
+  <button onclick="estimateFPS()">Estimate FPS</button>
+
+  <div id="fpsResult"></div>
+</section>
